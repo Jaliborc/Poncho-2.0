@@ -2,6 +2,8 @@ name: tag
 
 on:
   push:
+    paths:
+      - Poncho-1.0.lua
     branches:
       - master
 
