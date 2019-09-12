@@ -2,8 +2,6 @@ name: tag
 
 on:
   push:
-    paths:
-      - Poncho-1.0.lua
     branches:
       - master
 
@@ -15,6 +13,6 @@ jobs:
       - uses: jaliborc/action-general-autotag@master
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          source_file: "Poncho-1.0.lua"
+          source_file: "Lib.lua"
           extraction_regex: "LibStub:NewLibrary\\(['\\s]+Poncho-1.0['\\s]+,\\s*(\\d+)\\)"
           tag_format: "1.0.{version}"
