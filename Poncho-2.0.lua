@@ -2,7 +2,7 @@ local Lib = LibStub:NewLibrary('Poncho-2.0', 1)
 if not Lib then return end
 
 local setmetatable, getmetatable, tinsert, tremove, type = setmetatable, getmetatable, tinsert, tremove, type
-local Base = {}
+local Base = {__type = 'Abstract'}
 
 local ClassMeta =  {
   __index = function(class, key)
@@ -29,9 +29,9 @@ local SuperCall = {
 --[[ Static ]]--
 
 function Base:NewClass(kind, name, template)
-  assert(not kind or type(kind) == 'string', 'Bad argument #1 to `NewClass` (string or nil expected)')
-  assert(not name or type(name) == 'string', 'Bad argument #2 to `NewClass` (string or nil expected)')
-  assert(not template or type(template) == 'string', 'Bad argument #3 to `NewClass` (string or nil expected)')
+  assert(not kind or type(kind) == 'string', 'Bad argument #1 to `:NewClass` (string or nil expected)')
+  assert(not name or type(name) == 'string', 'Bad argument #2 to `:NewClass` (string or nil expected)')
+  assert(not template or type(template) == 'string', 'Bad argument #3 to `:NewClass` (string or nil expected)')
 
   if kind and not Lib.Types[kind] then
     Lib.Types[kind] = getmetatable(CreateFrame(kind)).__index
@@ -52,16 +52,18 @@ function Base:NewClass(kind, name, template)
   return class
 end
 
-function Base:New()
+function Base:New(parent)
   assert(self.__type ~= 'Abstract', 'Cannot initialize frame for absract class')
 
   local frame = tremove(self.__frames)
   if not frame then
     self.__count = self.__count + 1
-    frame = self:Bind(self:Construct())
+    frame = self:Construct()
   end
 
   self.__frames[frame] = true
+  frame:ClearAllPoints()
+  frame:SetParent(parent)
   return frame
 end
 
@@ -70,7 +72,11 @@ function Base:Bind(frame)
 end
 
 function Base:Construct()
-  return CreateFrame(self.__type, self.__name and (self.__name .. self.__count) or nil, nil, self.__template)
+  return self:Bind(CreateFrame(self.__type, self.__name and (self.__name .. self.__count) or nil, UIParent, self.__template))
+end
+
+function Base:IsAbstract()
+  return self.__type == 'Abstract'
 end
 
 
@@ -92,10 +98,6 @@ function Base:GetFrameType()
   return self.__type
 end
 
-function Base:IsAbstract()
-  return self.__type == 'Abstract'
-end
-
 function Base:NumActive()
   return self.__count - #self.__frames
 end
@@ -106,6 +108,10 @@ end
 
 function Base:NumFrames()
   return self.__count
+end
+
+function Base:IsFrame()
+  return type(self[0]) == 'userdata'
 end
 
 
@@ -125,8 +131,8 @@ end
 
 function Base:Reset()
   self:SetParent(UIParent)
-	self:ClearAllPoints()
-	self:SetPoint('BOTTOM', UIParent, 'TOP', 0, GetScreenHeight()) -- twice outside of screen
+  self:ClearAllPoints()
+  self:SetPoint('BOTTOM', UIParent, 'TOP', 0, GetScreenHeight()) -- twice outside of screen
 end
 
 function Base:IsActive()
@@ -134,6 +140,7 @@ function Base:IsActive()
 end
 
 function Base:Super(class)
+  assert(class, 'No argument #1 to `:Super`')
   return setmetatable({class = class, frame = self}, SuperCall)
 end
 
@@ -148,12 +155,16 @@ function Lib:Embed(object)
   object.NewClass = Lib.NewClass
 end
 
+
+--[[ Proprieties ]]--
+
 setmetatable(Lib, Lib)
-Base.__type = 'Abstract'
 Lib.__call = Lib.NewClass
+Lib.Base, Lib.ClassMeta, Lib.SuperCall = Base, ClassMeta, SuperCall
 Lib.Types = Lib.Types or {
   Abstract = {},
   Frame = getmetatable(GameMenuFrame).__index,
   Button = getmetatable(GameMenuButtonContinue).__index,
   CheckButton = getmetatable(AddonListForceLoad).__index,
+  EditBox = getmetatable(ChatFrame1EditBox).__index,
 }

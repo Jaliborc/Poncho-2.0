@@ -53,8 +53,8 @@ function Tests:AsbtractInstances()
   local a = NewClass()
   local b = NewClass('Frame')
 
-  IsFalse(pcall(a, a))
-  IsTrue(pcall(b, b))
+  IsFalse(pcall(a))
+  IsTrue(pcall(b))
 end
 
 function Tests:Super()
