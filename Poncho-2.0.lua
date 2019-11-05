@@ -16,7 +16,7 @@ local ClassMeta =  {
 
 local SuperCall = {
   __index = function(tmp, key)
-    local var = ClassMeta.__index(tmp.class, key)
+    local var = ClassMeta.__index(tmp.class, key) or Lib.Types[tmp.frame.__type][key]
     if type(var) == 'function' then
       return function(tmp, ...)  return var(tmp.frame, ...) end
     end
