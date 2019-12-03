@@ -20,7 +20,7 @@ Frames can then be created by calling the class object itself:
 frame = class()
 ````
 
-Subclasses can also be recursively created:
+Subclasses can also be recursively inherited:
 ````lua
-frame = class:NewClass()
+sublass = class:NewClass()
 ````
