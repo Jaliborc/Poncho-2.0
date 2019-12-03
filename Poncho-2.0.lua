@@ -110,10 +110,6 @@ function Base:NumFrames()
   return self.__count
 end
 
-function Base:IsFrame()
-  return type(self[0]) == 'userdata'
-end
-
 
 --[[ Instance ]]--
 
@@ -123,7 +119,7 @@ end
 
 function Base:Release()
   if self:IsActive() then
-    tinsert(self.__frames, self)
+    tinsert(self.__frames, 1, self)
     self.__frames[self] = nil
     self:Reset()
   end
