@@ -17,7 +17,7 @@ class = LibStub('Poncho-2.0'):NewClass('Frame', 'FrameNames', 'SomeTemplate')
 
 Frames can then be created by calling the class object itself:
 ````lua
-frame = class(SomeParent)
+frame = class()
 ````
 
 Subclasses can also be recursively inherited:
