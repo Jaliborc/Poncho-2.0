@@ -6,7 +6,7 @@ Simulating frame classes in World of Warcraft is not simple: Lua does not suppor
 ## Overview
 Creating frames in World of Warcraft is extremely simple:
 ````lua
-frame = CreateFrame('Frame', 'SomeFrame', MyParent, 'SomeTemplate')
+frame = CreateFrame('Frame', 'SomeFrame', SomeParent, 'SomeTemplate')
 ````
 
 Creating a new frame class using Poncho is very similar:
@@ -17,7 +17,7 @@ class = LibStub('Poncho-2.0'):NewClass('Frame', 'FrameNames', 'SomeTemplate')
 
 Frames can then be created by calling the class object itself:
 ````lua
-frame = class()
+frame = class(SomeParent)
 ````
 
 Subclasses can also be recursively inherited:
