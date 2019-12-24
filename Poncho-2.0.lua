@@ -75,10 +75,6 @@ function Base:Construct()
   return self:Bind(CreateFrame(self.__type, self.__name and (self.__name .. self.__count) or nil, UIParent, self.__template))
 end
 
-function Base:IsAbstract()
-  return self.__type == 'Abstract'
-end
-
 
 --[[ Flexible ]]--
 
@@ -96,6 +92,10 @@ end
 
 function Base:GetFrameType()
   return self.__type
+end
+
+function Base:IsAbstract()
+  return self.__type == 'Abstract'
 end
 
 function Base:NumActive()
