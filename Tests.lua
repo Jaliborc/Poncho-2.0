@@ -1,6 +1,6 @@
-if not WoWUnit then return end
+local Tests = WoWUnit and WoWUnit('Poncho-2.0')
+if not Tests then return end
 
-local Tests = WoWUnit('Poncho-2.0')
 local NewClass = LibStub('Poncho-2.0')
 local AreEqual, IsFalse, IsTrue = WoWUnit.AreEqual, WoWUnit.IsFalse, WoWUnit.IsTrue
 
