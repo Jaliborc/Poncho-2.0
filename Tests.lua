@@ -102,7 +102,7 @@ function Tests:Release()
 end
 
 function Tests:HidingInactive()
-  local class = NewClass('Frame')
+  local class = NewClass('Frame', nil, BackdropTemplateMixin and 'BackdropTemplate')
   local f = class()
   f:SetParent(UIParent)
   f:SetPoint('CENTER')
