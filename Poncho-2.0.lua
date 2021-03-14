@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with Poncho. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-
 local Lib = LibStub:NewLibrary('Poncho-2.0', 2)
 if not Lib then return end
 
