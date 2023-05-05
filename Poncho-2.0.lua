@@ -171,7 +171,7 @@ function Lib:Embed(object)
 end
 
 
---[[ Proprieties ]]--
+--[[ Properties ]]--
 
 setmetatable(Lib, Lib)
 Lib.__call = Lib.NewClass
