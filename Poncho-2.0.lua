@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Poncho. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local Lib = LibStub:NewLibrary('Poncho-2.0', 2)
+local Lib = LibStub:NewLibrary('Poncho-2.0', 3)
 if not Lib then return end
 
 local setmetatable, getmetatable, tinsert, tremove, type = setmetatable, getmetatable, tinsert, tremove, type
@@ -25,7 +25,7 @@ local Base = {__type = 'Abstract'}
 
 local ClassMeta =  {
   __index = function(class, key)
-    return class.__super[key] or Lib.Types[class.__type][key]
+    return class.__super[key] or class.__base[key]
   end,
 
   __call = function(class, ...)
@@ -35,7 +35,7 @@ local ClassMeta =  {
 
 local SuperCall = {
   __index = function(tmp, key)
-    local var = ClassMeta.__index(tmp.class, key) or Lib.Types[tmp.frame.__type][key]
+    local var = ClassMeta.__index(tmp.class, key) or tmp.frame.__base[key]
     if type(var) == 'function' then
       return function(tmp, ...)  return var(tmp.frame, ...) end
     end
@@ -57,11 +57,12 @@ function Base:NewClass(kind, name, template)
   end
 
   local class = setmetatable({}, ClassMeta)
+  class.__index = class
+  class.__name = name
+  class.__type = kind
   class.__super = self
   class.__template = template
-  class.__index = class
-  class.__type = kind
-  class.__name = name
+  class.__base = Lib.Types[class.__type]
 
   if class.__type ~= 'Abstract' then
     class.__frames = {}
@@ -86,12 +87,12 @@ function Base:New(parent)
   return frame
 end
 
-function Base:Bind(frame)
-  return setmetatable(frame, self)
-end
-
 function Base:Construct()
   return self:Bind(CreateFrame(self.__type, self.__name and (self.__name .. self.__count) or nil, UIParent, self.__template))
+end
+
+function Base:Bind(frame)
+  return setmetatable(frame, self)
 end
 
 
