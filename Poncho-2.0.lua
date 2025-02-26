@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Poncho. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local Lib = LibStub:NewLibrary('Poncho-2.0', 4)
+local Lib = LibStub:NewLibrary('Poncho-2.0', 5)
 if not Lib then return end
 
 local setmetatable, getmetatable, tinsert, tremove, type = setmetatable, getmetatable, tinsert, tremove, type
@@ -181,7 +181,7 @@ Lib.Types = Lib.Types or {
   Abstract = {},
   Frame = getmetatable(GameMenuFrame).__index,
   Button = getmetatable(ChatFrameChannelButton).__index,
-  CheckButton = getmetatable(AddonListForceLoad).__index,
+  CheckButton = getmetatable(AddonListForceLoad or AddonList.ForceLoad).__index,
   EditBox = getmetatable(ChatFrame1EditBox).__index,
   GameTooltip = getmetatable(GameTooltip).__index,
 }
