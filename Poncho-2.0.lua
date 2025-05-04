@@ -20,7 +20,7 @@ along with Poncho. If not, see <http://www.gnu.org/licenses/>.
 local Lib = LibStub:NewLibrary('Poncho-2.0', 5)
 if not Lib then return end
 
-local setmetatable, getmetatable, tinsert, tremove, type = setmetatable, getmetatable, tinsert, tremove, type
+local setmetatable, getmetatable, assert, type, tinsert, tremove = setmetatable, getmetatable, assert, type, tinsert, tremove
 local Base = {__type = 'Abstract'}
 
 local ClassMeta =  {
