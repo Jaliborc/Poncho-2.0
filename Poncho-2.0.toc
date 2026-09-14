@@ -1,6 +1,6 @@
 ## Title: Poncho
 ## Notes: Implement object-oriented frame classes with inheritance in pure Lua.
-## Interface: 120100, 50504, 40402, 30405, 20506, 11509
+## Interface: 120100, 50504, 40402, 30404, 20506, 11509
 ## Author: Jaliborc (João Cardoso)
 ## Category: Libraries
 ## Dependencies: LibStub
